@@ -1,24 +1,21 @@
 package kukim.tistory.com.hellospring;
 
-import kukim.tistory.com.hellospring.repository.JdbcMemberRepository;
-import kukim.tistory.com.hellospring.repository.JdbcTemplateMemberRepository;
-import kukim.tistory.com.hellospring.repository.MemberRepository;
-import kukim.tistory.com.hellospring.repository.MemoryMemberRepository;
+import kukim.tistory.com.hellospring.repository.*;
 import kukim.tistory.com.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private EntityManager em;
 
-    @Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public SpringConfig(EntityManager em) {
+        this.em = em;
     }
 
     @Bean
@@ -30,7 +27,8 @@ public class SpringConfig {
     public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
 //        return new JdbcMemberRepository(dataSource);
-        return new JdbcTemplateMemberRepository(dataSource);
+//        return new JdbcTemplateMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 
 
